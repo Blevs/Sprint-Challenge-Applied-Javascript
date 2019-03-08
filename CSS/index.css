@@ -44,6 +44,7 @@ body {
   background-color: #f1f1f1;
   color: #333;
   font-family: 'PT Sans', sans-serif;
+  overflow-x: hidden;
 }
 .top-bar {
   width: 100%;
