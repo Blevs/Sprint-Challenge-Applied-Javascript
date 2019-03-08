@@ -21,6 +21,9 @@ class Carousel {
     this.indicators[0].classList.add('indicator-show');
     // Prevent imageIter from triggering again during animation
     this.lock = false;
+    // Autoscroll
+    this.scrollInterval = null;
+    this.resetAutoScroll();
 
     this.left.addEventListener('click', () => this.iterImage(-1));
     this.right.addEventListener('click', () => this.iterImage(1));
@@ -28,6 +31,7 @@ class Carousel {
   iterImage(num) {
     if (!this.lock) {
       this.lock = true;
+      this.resetAutoScroll();
       const oldSelected = this.selected;
       this.images[oldSelected].classList.add(num > 0 ? 'out-left' : 'out-right');
       this.indicators[oldSelected].classList.remove('indicator-show');
@@ -44,6 +48,11 @@ class Carousel {
         this.lock = false;
       });
     }
+  }
+
+  resetAutoScroll() {
+    clearInterval(this.scrollInterval);
+    this.scrollInterval = setInterval(() => this.iterImage(1), 5000);
   }
 }
 
