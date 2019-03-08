@@ -37,7 +37,7 @@ class TabLink {
     // Iterate through the NodeList setting the display style each one to 'none'
     // cards.forEach(card => card.style.display = 'none');
     cards.forEach(card => {
-      card.classList.remove('card-show');
+      card.classList.remove('card-hoverable');
       card.classList.add('card-hide');
     });
     
@@ -53,11 +53,11 @@ class TabCard {
   constructor(cardElement) {
     // Assign this.cardElement to the cardElement DOM reference
     this.cardElement = cardElement;
-    this.cardElement.classList.add('card-show');
+    this.cardElement.classList.add('card-hoverable');
     this.cardElement.addEventListener('animationend', (event) => {
       if (event.animationName === 'slidein') {
         this.cardElement.classList.remove('card-showing');
-        this.cardElement.classList.add('card-show');
+        this.cardElement.classList.add('card-hoverable');
       }
      });
   }

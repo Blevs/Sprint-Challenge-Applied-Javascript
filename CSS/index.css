@@ -228,8 +228,8 @@ body {
   transition: box-shadow 0.3s, opacity 0.4s, transform 0.4s ease-in;
   display: flex;
 }
-.cards-container .card.card-show:hover,
-.cards-container .card.card-show:focus {
+.cards-container .card.card-hoverable:hover,
+.cards-container .card.card-hoverable:focus {
   box-shadow: 0 4px 8px 0 lightgrey;
 }
 .cards-container .card.card-hide {
