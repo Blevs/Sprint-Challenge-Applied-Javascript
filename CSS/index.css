@@ -281,6 +281,7 @@ body {
   width: 50px;
   height: 50px;
   cursor: pointer;
+  z-index: 2;
 }
 .carousel .left-button:hover,
 .carousel .right-button:hover {
@@ -301,7 +302,39 @@ body {
 .carousel img {
   width: 100%;
   display: none;
+  transition: transform 1s ease-in-out;
 }
 .carousel img.carousel-show {
   display: block;
+  position: absolute;
+}
+.carousel img.out-left {
+  transform: translate(-100%, 0);
+  z-index: 1;
+}
+.carousel img.out-right {
+  transform: translate(100%, 0);
+  z-index: 1;
+}
+.carousel img.in-left {
+  animation: slide-in-left 1s ease-in-out;
+}
+.carousel img.in-right {
+  animation: slide-in-right 1s ease-in-out;
+}
+@keyframes slide-in-left {
+  from {
+    transform: translate(100%, 0);
+  }
+  to {
+    transform: translate(0, 0);
+  }
+}
+@keyframes slide-in-right {
+  from {
+    transform: translate(-100%, 0);
+  }
+  to {
+    transform: translate(0, 0);
+  }
 }

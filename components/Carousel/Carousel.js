@@ -7,14 +7,28 @@ class Carousel {
     // Select first image by default
     this.selected = 0;
     this.images[this.selected].classList.add('carousel-show');
+    // Prevent imageIter from triggering again during animation
+    this.lock = false;
 
     this.left.addEventListener('click', () => this.iterImage(-1));
     this.right.addEventListener('click', () => this.iterImage(1));
   }
   iterImage(num) {
-    this.images[this.selected].classList.remove('carousel-show');
-    this.selected = (this.images.length + (this.selected + (num % this.images.length))) % this.images.length;
-    this.images[this.selected].classList.add('carousel-show');
+    if (!this.lock) {
+      this.lock = true;
+      const oldSelected = this.selected;
+      this.images[oldSelected].classList.add(num > 0 ? 'out-left' : 'out-right');
+      this.selected = (this.images.length + (this.selected + (num % this.images.length))) % this.images.length;
+      const newSelected = this.selected;
+      this.images[this.selected].classList.add('carousel-show');
+      this.images[newSelected].classList.add(num > 0 ? 'in-left' : 'in-right');
+      setTimeout(() => {
+        this.images[oldSelected].classList.remove('carousel-show');
+        this.images[oldSelected].classList.remove(num > 0 ? 'out-left' : 'out-right');
+        this.images[newSelected].classList.remove(num > 0 ? 'in-left' : 'in-right');
+        this.lock = false;
+      }, 1040);
+    }
   }
 }
 
