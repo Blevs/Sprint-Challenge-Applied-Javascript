@@ -13,9 +13,24 @@
     width: 380px;
     margin-bottom: 16px;
     padding: 24px;
+    opacity: 1;
+    transition: box-shadow 0.3s, opacity 0.4s, transform 0.4s ease-in;
+    display: flex;
+    &.card-hoverable {
+      &:hover, &:focus {
+        box-shadow: 0 4px 8px 0 @lambda-times-color-lightgrey;
+      }
+    }
+    &.card-hide {
+      display: none;
+    }
+    &.card-showing {
+      animation: slidein 0.4s ease-out;
+    }
     .headline {
       font-size: 25px;
       font-family: Didot, serif;
+      cursor: pointer;
     }
     .author {
       .flex(none, center);
@@ -35,5 +50,27 @@
         font-weight: bold;
       }
     }
+  }
+}
+
+@keyframes fadein {
+  from {
+    opacity: 0;
+    transform: scale(0.5);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes slidein {
+  from {
+    opacity: 0;
+    transform: translateX(100%);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
   }
 }

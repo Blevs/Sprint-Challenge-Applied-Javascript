@@ -8,25 +8,25 @@
   font-family: 'PT Sans';
   font-style: italic;
   font-weight: 400;
-  src: local('PT Sans Italic'), local('PTSans-Italic'), url(https://fonts.gstatic.com/s/ptsans/v9/jizYRExUiTo99u79D0e0x8mN.ttf) format('truetype');
+  src: local('PT Sans Italic'), local('PTSans-Italic'), url(https://fonts.gstatic.com/s/ptsans/v10/jizYRExUiTo99u79D0e0x8mN.ttf) format('truetype');
 }
 @font-face {
   font-family: 'PT Sans';
   font-style: italic;
   font-weight: 700;
-  src: local('PT Sans Bold Italic'), local('PTSans-BoldItalic'), url(https://fonts.gstatic.com/s/ptsans/v9/jizdRExUiTo99u79D0e8fOydLxUY.ttf) format('truetype');
+  src: local('PT Sans Bold Italic'), local('PTSans-BoldItalic'), url(https://fonts.gstatic.com/s/ptsans/v10/jizdRExUiTo99u79D0e8fOydLxUY.ttf) format('truetype');
 }
 @font-face {
   font-family: 'PT Sans';
   font-style: normal;
   font-weight: 400;
-  src: local('PT Sans'), local('PTSans-Regular'), url(https://fonts.gstatic.com/s/ptsans/v9/jizaRExUiTo99u79D0KEwA.ttf) format('truetype');
+  src: local('PT Sans'), local('PTSans-Regular'), url(https://fonts.gstatic.com/s/ptsans/v10/jizaRExUiTo99u79D0KEwA.ttf) format('truetype');
 }
 @font-face {
   font-family: 'PT Sans';
   font-style: normal;
   font-weight: 700;
-  src: local('PT Sans Bold'), local('PTSans-Bold'), url(https://fonts.gstatic.com/s/ptsans/v9/jizfRExUiTo99u79B_mh0O6tKA.ttf) format('truetype');
+  src: local('PT Sans Bold'), local('PTSans-Bold'), url(https://fonts.gstatic.com/s/ptsans/v10/jizfRExUiTo99u79B_mh0O6tKA.ttf) format('truetype');
 }
 * {
   box-sizing: border-box;
@@ -44,6 +44,7 @@ body {
   background-color: #f1f1f1;
   color: #333;
   font-family: 'PT Sans', sans-serif;
+  overflow-x: hidden;
 }
 .top-bar {
   width: 100%;
@@ -217,7 +218,6 @@ body {
 }
 .cards-container .card {
   border-bottom: 1px solid lightgrey;
-  display: flex;
   justify-content: space-between;
   align-items: none;
   flex-direction: column;
@@ -225,10 +225,24 @@ body {
   width: 380px;
   margin-bottom: 16px;
   padding: 24px;
+  opacity: 1;
+  transition: box-shadow 0.3s, opacity 0.4s, transform 0.4s ease-in;
+  display: flex;
+}
+.cards-container .card.card-hoverable:hover,
+.cards-container .card.card-hoverable:focus {
+  box-shadow: 0 4px 8px 0 lightgrey;
+}
+.cards-container .card.card-hide {
+  display: none;
+}
+.cards-container .card.card-showing {
+  animation: slidein 0.4s ease-out;
 }
 .cards-container .card .headline {
   font-size: 25px;
   font-family: Didot, serif;
+  cursor: pointer;
 }
 .cards-container .card .author {
   display: flex;
@@ -251,6 +265,26 @@ body {
   letter-spacing: 1px;
   font-weight: bold;
 }
+@keyframes fadein {
+  from {
+    opacity: 0;
+    transform: scale(0.5);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+@keyframes slidein {
+  from {
+    opacity: 0;
+    transform: translateX(100%);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
 .carousel {
   width: 100%;
   display: flex;
@@ -269,36 +303,115 @@ body {
 }
 .carousel .left-button,
 .carousel .right-button {
+  align-items: none;
+  color: #fff;
+  font-size: 30px;
+  position: absolute;
+  height: 100%;
+  cursor: pointer;
+  opacity: 0.8;
+  z-index: 2;
   display: flex;
   justify-content: center;
-  align-items: none;
+  align-items: center;
   flex-direction: row;
-  color: #fff;
-  background-color: #333;
-  font-size: 40px;
-  border-radius: 50%;
-  position: absolute;
-  width: 50px;
-  height: 50px;
-  cursor: pointer;
 }
-.carousel .left-button:hover,
-.carousel .right-button:hover {
-  color: #333;
-  background-color: #fff;
-  border: 2px solid #333;
+.carousel .left-button::before,
+.carousel .right-button::before {
+  position: absolute;
+  cursor: pointer;
+  width: 400%;
+  height: 100%;
+  opacity: 0;
+  transition: opacity 0.6s;
+  float: right;
+  top: 0;
+  content: "";
+  z-index: -1;
+}
+.carousel .left-button:hover::before,
+.carousel .right-button:hover::before,
+.carousel .left-button:focus::before,
+.carousel .right-button:focus::before {
+  opacity: 0.6;
 }
 .carousel .left-button {
-  top: 50%;
-  left: 25px;
-  transform: translate(0, -50%);
+  padding-left: 20px;
+  float: left;
+  left: 0;
+}
+.carousel .left-button::before {
+  left: 0;
+  background-image: linear-gradient(90deg, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0));
 }
 .carousel .right-button {
-  top: 50%;
-  right: 25px;
-  transform: translate(0, -50%);
+  padding-right: 20px;
+  float: right;
+  right: 0;
+}
+.carousel .right-button::before {
+  right: 0;
+  background-image: linear-gradient(-90deg, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0));
 }
 .carousel img {
   width: 100%;
   display: none;
+  transition: transform 1s ease-in-out;
+}
+.carousel img.carousel-show {
+  display: block;
+  position: absolute;
+}
+.carousel img.out-left {
+  transform: translate(-100%, 0);
+  z-index: 1;
+}
+.carousel img.out-right {
+  transform: translate(100%, 0);
+  z-index: 1;
+}
+.carousel img.in-left {
+  animation: slide-in-left 1s ease-in-out;
+}
+.carousel img.in-right {
+  animation: slide-in-right 1s ease-in-out;
+}
+.carousel .indicators {
+  position: absolute;
+  width: 100%;
+  height: 50px;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.carousel .indicators .indicator {
+  margin: 0 10px;
+  background: none;
+  border: 2px solid #fff;
+  opacity: 0.8;
+  width: 10px;
+  height: 10px;
+  border-radius: 10px;
+  transition: background 1s;
+  z-index: 100;
+}
+.carousel .indicators .indicator.indicator-show {
+  background: #fff;
+}
+@keyframes slide-in-left {
+  from {
+    transform: translate(100%, 0);
+  }
+  to {
+    transform: translate(0, 0);
+  }
+}
+@keyframes slide-in-right {
+  from {
+    transform: translate(-100%, 0);
+  }
+  to {
+    transform: translate(0, 0);
+  }
 }
